@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using QRCoder;
 using System.IO;
 using Microsoft.Win32;
+//ALTENALT MUSTAFA YUSUF AKSU https://app.bio.link/dashboard/links
 
 namespace Text_to_QR
 {
@@ -25,16 +26,22 @@ namespace Text_to_QR
     {
         public MainWindow()
         {
-            InitializeComponent();
+            InitializeComponent(); // Kullanıcı arayüzünü başlat
         }
+
         private void GenerateQR_Click(object sender, RoutedEventArgs e)
         {
-            GenerateQRCode();
+            GenerateQRCode(); // QR kodu oluşturma fonksiyonunu çağır
         }
 
         private void GenerateQRCode()
         {
-            if (TextInput.Text == null || TextInput.Text == "") { MessageBox.Show("You need to enter a text"); return; }
+            // Kullanıcının girdiği metin boşsa uyarı mesajı göster
+            if (TextInput.Text == null || TextInput.Text == "")
+            {
+                MessageBox.Show("You need to enter a text");
+                return;
+            }
 
             // QR koduna çevirmek istediğin string verisi
             string data = TextInput.Text;
@@ -43,7 +50,9 @@ namespace Text_to_QR
             using (QRCodeGenerator qrGenerator = new QRCodeGenerator())
             {
                 QRCodeData qrCodeData;
-                if(error_Correction_Low.IsChecked == true)
+
+                // Hata düzeltme seviyesine göre QR kodunu oluştur
+                if (error_Correction_Low.IsChecked == true)
                 {
                     qrCodeData = qrGenerator.CreateQrCode(data, QRCodeGenerator.ECCLevel.L);
                 }
@@ -59,9 +68,9 @@ namespace Text_to_QR
                 {
                     qrCodeData = qrGenerator.CreateQrCode(data, QRCodeGenerator.ECCLevel.H);
                 }
-                else 
-                { 
-                    qrCodeData = qrGenerator.CreateQrCode(data, QRCodeGenerator.ECCLevel.Q);
+                else
+                {
+                    qrCodeData = qrGenerator.CreateQrCode(data, QRCodeGenerator.ECCLevel.Q); // Varsayılan hata düzeltme seviyesi
                 }
 
                 using (QRCode qrCode = new QRCode(qrCodeData))
@@ -69,7 +78,7 @@ namespace Text_to_QR
                     // Bitmap olarak QR kodunu oluştur
                     BitmapImage qrCodeImage = BitmapToImageSource(qrCode.GetGraphic(20));
 
-                    // Image kontrolüne QR kodu atama
+                    // Image kontrolüne QR kodunu atama
                     QrImage.Source = qrCodeImage;
                 }
             }
@@ -80,18 +89,21 @@ namespace Text_to_QR
         {
             using (MemoryStream memory = new MemoryStream())
             {
+                // Bitmap'i bellek akışına kaydet
                 bitmap.Save(memory, System.Drawing.Imaging.ImageFormat.Bmp);
-                memory.Position = 0;
+                memory.Position = 0; // Akışın başına döndür
                 BitmapImage bitmapImage = new BitmapImage();
                 bitmapImage.BeginInit();
-                bitmapImage.StreamSource = memory;
+                bitmapImage.StreamSource = memory; // Akışı kaynak olarak ayarla
                 bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
                 bitmapImage.EndInit();
-                return bitmapImage;
+                return bitmapImage; // Dönüştürülmüş resmi döndür
             }
         }
+
         private void QR_Generate(object sender, RoutedEventArgs e)
         {
+            // Otomatik oluşturma seçeneği açık ve metin girilmişse QR kodunu oluştur
             if (AutoGenerate != null && AutoGenerate.IsChecked == true && (TextInput.Text != null || TextInput.Text != ""))
             {
                 GenerateQRCode();
@@ -100,25 +112,25 @@ namespace Text_to_QR
 
         private void ImageSave_Click(object sender, RoutedEventArgs e)
         {
-            // Check the source of the Image
+            // Resmin kaynağını kontrol et
             if (QrImage.Source is BitmapSource bitmapSource)
             {
-                // Use SaveFileDialog to choose the location to save the file
+                // Kullanıcının kaydetmek istediği yeri seçmesi için dosya kaydetme diyaloğu aç
                 SaveFileDialog saveFileDialog = new SaveFileDialog
                 {
-                    Filter = "PNG Image|*.png", // Show only PNG format
-                    Title = "Save Image as PNG"
+                    Filter = "PNG Image|*.png", // Sadece PNG formatını göster
+                    Title = "Save Image as PNG" // Pencere başlığı
                 };
 
-                // If the user selected a file
+                // Kullanıcı bir dosya seçerse
                 if (saveFileDialog.ShowDialog() == true)
                 {
                     using (FileStream fileStream = new FileStream(saveFileDialog.FileName, FileMode.Create))
                     {
-                        // Create PNG encoder
+                        // PNG encoder oluştur
                         PngBitmapEncoder encoder = new PngBitmapEncoder();
 
-                        // Add the bitmap source to the encoder and save it to the file
+                        // Bitmap kaynağını encode edip dosyaya kaydet
                         encoder.Frames.Add(BitmapFrame.Create(bitmapSource));
                         encoder.Save(fileStream);
                     }
@@ -133,9 +145,9 @@ namespace Text_to_QR
 
         private void ImageCopy_Click(object sender, RoutedEventArgs e)
         {
+            // Resmin kaynağı varsa panoya kopyala
             if (QrImage.Source is BitmapSource bitmapSource)
             {
-                // Copy the image to the clipboard
                 Clipboard.SetImage(bitmapSource);
                 MessageBox.Show("Image copied!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             }
@@ -147,3 +159,4 @@ namespace Text_to_QR
 
     }
 }
+//ALTENALT MUSTAFA YUSUF AKSU https://app.bio.link/dashboard/links
