@@ -1,0 +1,60 @@
+﻿<Window x:Class="Text_to_QR.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Text_to_QR"
+        mc:Ignorable="d"
+        Title="QR Generator" Height="450" Width="800">
+    <Window.Background>
+        <LinearGradientBrush>
+            <GradientStop Color="Black" Offset="1"/>
+            <GradientStop Color="White" Offset="0"/>
+        </LinearGradientBrush>
+    </Window.Background>
+    <Grid Visibility="Visible">
+        <StackPanel Margin="10">
+            <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top">
+                <Border Background="Transparent">
+                    <Grid Margin="10,10,10,10">
+                        <Button Content="Generate QR" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="30" Click="GenerateQR_Click" Margin="0,0,0,0"/>
+                        <TextBox x:Name="TextInput" HorizontalAlignment="Left" Margin="124,0,0,0" Text="Text" VerticalAlignment="Top" Width="auto" Height="30" MaxWidth="300" MinWidth="210" FontFamily="Arial" MaxLines="1" SelectionChanged="QR_Generate"/>
+                    </Grid>
+                </Border>
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top">
+                <Border Background="Transparent">
+                    <Grid Margin="10,10,10,10">
+                        <Label x:Name="label" Content="Error Correction : " HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                        <RadioButton x:Name="error_Correction_Low" Content="Low" HorizontalAlignment="Left" Margin="108,0,0,0" VerticalAlignment="Center" Checked="QR_Generate"/>
+                        <RadioButton x:Name="error_Correction_Medium" Content="Medium" HorizontalAlignment="Left" Margin="153,0,0,0" VerticalAlignment="Center" Checked="QR_Generate"/>
+                        <RadioButton x:Name="error_Correction_Quartile" Content="Quartile" HorizontalAlignment="Left" Margin="221,0,0,0" VerticalAlignment="Center" IsChecked="True" Checked="QR_Generate"/>
+                        <RadioButton x:Name="error_Correction_High" Content="High" HorizontalAlignment="Left" Margin="289,0,0,0" VerticalAlignment="Center" Checked="QR_Generate"/>
+                    </Grid>
+                </Border>
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top">
+                <Border Background="Transparent">
+                    <Grid Margin="10,10,10,10">
+                        <CheckBox x:Name="AutoGenerate" Content="Auto Generate" IsChecked="True"/>
+                    </Grid>
+                </Border>
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top">
+                <Border Background="#3FFFFFFF">
+                    <Grid Margin="10,10,10,10">
+                        <Image x:Name="QrImage" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Height="200" Margin="0,0,0,0"/>
+                    </Grid>
+                </Border>
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top">
+                <Border Background="Transparent">
+                    <Grid Margin="10,10,10,10">
+                        <Button x:Name="ImageSave" Content="Save Image" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="30" Margin="0,0,0,0" Click="ImageSave_Click"/>
+                        <Button x:Name="ImageCopy" Content="Copy Image" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="30" Margin="110,0,0,0" Click="ImageCopy_Click"/>
+                    </Grid>
+                </Border>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>
