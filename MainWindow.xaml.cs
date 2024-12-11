@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using QRCoder;
 using System.IO;
 using Microsoft.Win32;
+using System.Diagnostics;
 //ALTENALT MUSTAFA YUSUF AKSU https://app.bio.link/dashboard/links
 
 namespace Text_to_QR
@@ -104,7 +105,7 @@ namespace Text_to_QR
         private void QR_Generate(object sender, RoutedEventArgs e)
         {
             // Otomatik oluşturma seçeneği açık ve metin girilmişse QR kodunu oluştur
-            if (AutoGenerate != null && AutoGenerate.IsChecked == true && (TextInput.Text != null || TextInput.Text != ""))
+            if (AutoGenerate != null && AutoGenerate.IsChecked == true && (TextInput.Text != null && TextInput.Text != ""))
             {
                 GenerateQRCode();
             }
@@ -156,7 +157,13 @@ namespace Text_to_QR
                 MessageBox.Show("No image available to copy.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+        private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            double scaleX = ActualWidth / 800.0; // Eski genişlik 800
+            double scaleY = ActualHeight / 450.0; // Eski yükseklik 450
 
+            MainCanvas.LayoutTransform = new ScaleTransform(scaleX, scaleY);
+        }
     }
 }
 //ALTENALT MUSTAFA YUSUF AKSU https://app.bio.link/dashboard/links
